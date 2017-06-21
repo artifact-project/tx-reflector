@@ -73,19 +73,29 @@ module.exports = {
 ```
 
 
-### Jest
+### Jest (only with TS 2.4+)
 
 ```js
-// <projectRoot>.jest/tsPreprocessor.js
+// .jest/tsPreprocessor.js
 const tsc = require('typescript');
 const tsConfig = require('../tsconfig.json');
-const {default:txReflector} = require('tx-reflector/src/transformer/transformer'); // (!!!)
+const {default:txReflector} = require('tx-reflector/src/transformer/transformer');
 
 module.exports = {
 	process(src, path) {
 		if (path.endsWith('.ts') || path.endsWith('.tsx')) {
-			return tsc.transpile(src, tsConfig.compilerOptions, path, [txReflector]);
+			const result = tsc.transpileModule(src, {
+				compilerOptions: tsConfig.compilerOptions,
+				fileName: path,
+				transformers: {
+					before: [txReflector],
+					after: [],
+				},
+			});
+
+			return result.outputText;
 		}
+
 		return src;
 	},
 };

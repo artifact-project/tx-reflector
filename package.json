@@ -1,8 +1,12 @@
 {
   "name": "tx-reflector",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "TypeScript transformer for code generation.",
-  "keywords": ["typescript", "reflect", "transformer"],
+  "keywords": [
+    "typescript",
+    "reflect",
+    "transformer"
+  ],
   "main": "index.js",
   "repository": "git@github.com:artifact-project/tx-reflector.git",
   "scripts": {
@@ -31,7 +35,7 @@
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "\\.tests\\.ts$",
+    "testRegex": "\\.tests\\.tsx?$",
     "transformIgnorePatterns": [],
     "setupTestFrameworkScriptFile": "<rootDir>/__jest__/extensions.ts",
     "moduleFileExtensions": [

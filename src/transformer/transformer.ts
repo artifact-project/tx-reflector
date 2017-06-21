@@ -30,6 +30,7 @@ type TypeOfNode = {type: ts.Type, typeChecker: ts.TypeChecker};
 function getTypeFromTypeNode(fileName, searchNode: ts.Node): TypeOfNode | null {
 	const program = ts.createProgram([fileName], {
 		noEmitOnError: true,
+		jsx: ts.JsxEmit.React,
 		target: ts.ScriptTarget.ES5
 	});
 

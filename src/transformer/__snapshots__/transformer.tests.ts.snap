@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getComponentInterfaces React 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import Text from './_react';
+const interfaces = [\\"ITextProps\\"];
+"
+`;
+
 exports[`getComponentInterfaces XCmp 1`] = `
 "import { getComponentInterfaces } from '../../reflector/reflector';
 import { XCmp } from './_components';
@@ -16,8 +23,9 @@ const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
 
 exports[`getComponentInterfaces XLikeFnCmp 1`] = `
 "import { getComponentInterfaces } from '../../reflector/reflector';
-import { XLikeFnCmp } from './_components';
+import { XLikeFnCmp, XLikeFnCmp2 } from './_components';
 const interfaces = [\\"IProps\\", \\"IClickable\\"];
+const interfaces2 = [\\"IProps\\", \\"IClickable\\"];
 "
 `;
 

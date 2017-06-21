@@ -48,4 +48,8 @@ describe('getComponentInterfaces', () => {
 	it('XLikeFnCmp', () => {
 		expect(transform(`getComponentInterfaces.XLikeFnCmp`)).toMatchSnapshot();
 	});
+
+	it('React', () => {
+		expect(transform(`getComponentInterfaces.React`)).toMatchSnapshot();
+	});
 });
