@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "TypeScript transformer for code generation.",
   "keywords": ["typescript", "reflect", "transformer"],
-  "main": "dist/index.js",
+  "main": "index.js",
+  "repository": "git@github.com:artifact-project/tx-reflector.git",
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc",
