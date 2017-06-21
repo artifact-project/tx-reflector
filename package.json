@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc",
-    "clean": "rm -f *.js *.d.ts src/**/*.js src/**/*.d.ts",
+    "clean": "rm -f *.js *.d.ts src/**/*.{js,.d.ts}",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
