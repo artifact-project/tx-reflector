@@ -2,7 +2,7 @@ TX Reflector
 ------------
 TypeScript transformer for code generation.
 
- - `npm i --save-dev ts-reflector`
+ - `npm i --save-dev tx-reflector`
 
 
 ### API
@@ -15,7 +15,7 @@ TypeScript transformer for code generation.
 ### Usage
 
 ```ts
-import {getInterfaces} from 'ts-reflector';
+import {getInterfaces} from 'tx-reflector';
 
 const interfaces: string[] = getInterfaces<IData>(data);
 
@@ -27,7 +27,7 @@ const interfaces: string[] = getInterfaces<IData>(data);
 ### React and like
 
 ```ts
-import {getComponentInterfaces} from 'ts-reflector';
+import {getComponentInterfaces} from 'tx-reflector';
 
 interface IBtnProps extends IComponent, IClickable {
 	value: string;

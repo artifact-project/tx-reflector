@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-const R_TS_REFLECTOR = /(ts-reflector|reflector\/reflector['"])$/;
+const R_TS_REFLECTOR = /(tx-reflector|\.\.\/reflector\/reflector['"])$/;
 
 function hasStatements(node: ts.Node): node is ts.Block {
 	return node.hasOwnProperty('statements');
