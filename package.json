@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc",
-    "clean": "rm -f *.js *.d.ts src/**/*.{js,.d.ts}",
+    "clean": "git clean -f",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
