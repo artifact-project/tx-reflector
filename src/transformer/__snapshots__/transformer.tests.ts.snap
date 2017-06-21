@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getInterfaces 1`] = `
+"import { getInterfaces, getComponentInterfaces } from '../../reflector/reflector';
+import { IProps } from './interfaces';
+import { XClass } from './classes';
+const forInterface = [\\"IProps\\", \\"IClickable\\"];
+const forComponent = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
