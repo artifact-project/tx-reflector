@@ -49,7 +49,7 @@ Use [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript
 
 ```js
 // webpack.config.js
-const {default:txReflector} = require('tx-reflector/src/transformer');
+const {default:txReflector} = require('tx-reflector/src/transformer/transformer');
 
 module.exports = {
 	// ...
@@ -69,6 +69,25 @@ module.exports = {
 		},
 	},
 	// ...
+};
+```
+
+
+### Jest
+
+```js
+// <projectRoot>.jest/tsPreprocessor.js
+const tsc = require('typescript');
+const tsConfig = require('../tsconfig.json');
+const {default:txReflector} = require('tx-reflector/src/transformer/transformer'); // (!!!)
+
+module.exports = {
+	process(src, path) {
+		if (path.endsWith('.ts') || path.endsWith('.tsx')) {
+			return tsc.transpile(src, tsConfig.compilerOptions, path, [txReflector]);
+		}
+		return src;
+	},
 };
 ```
 

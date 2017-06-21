@@ -23,3 +23,29 @@ function transform(name: string): string {
 it('getInterfaces', () => {
 	expect(transform(`getInterfaces`)).toMatchSnapshot();
 });
+
+describe('getComponentInterfaces', () => {
+	it('XCmp', () => {
+		expect(transform(`getComponentInterfaces.XCmp`)).toMatchSnapshot();
+	});
+
+	it('XPureCmp', () => {
+		expect(transform(`getComponentInterfaces.XPureCmp`)).toMatchSnapshot();
+	});
+
+	it('XPureCmpWithSpred', () => {
+		expect(transform(`getComponentInterfaces.XPureCmpWithSpred`)).toMatchSnapshot();
+	});
+
+	it('XPureCmpWithSpred', () => {
+		expect(transform(`getComponentInterfaces.XPureCmpWithSpred`)).toMatchSnapshot();
+	});
+
+	it('XFnPureCmp', () => {
+		expect(transform(`getComponentInterfaces.XFnPureCmp`)).toMatchSnapshot();
+	});
+
+	it('XLikeFnCmp', () => {
+		expect(transform(`getComponentInterfaces.XLikeFnCmp`)).toMatchSnapshot();
+	});
+});

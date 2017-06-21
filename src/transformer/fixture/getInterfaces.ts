@@ -1,6 +1,4 @@
-import {getInterfaces, getComponentInterfaces} from '../../reflector/reflector';
-import {IProps} from './interfaces';
-import {XClass} from './classes';
+import {getInterfaces} from '../../reflector/reflector';
+import {IProps} from './_interfaces';
 
-const forInterface = getInterfaces<IProps>({value: 'foo'});
-const forComponent = getComponentInterfaces<XClass>(XClass);
+const interfaces = getInterfaces<IProps>({value: 'foo'});

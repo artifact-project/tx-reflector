@@ -1,28 +1,20 @@
 import * as ts from 'typescript';
 
-const R_TS_REFLECTOR = /(tx-reflector|\.\.\/reflector\/reflector['"])$/;
+const R_TS_REFLECTOR = /^(['"])(tx-reflector|\.\.\/\.\.\/reflector\/reflector)\1$/;
 
-function hasStatements(node: ts.Node): node is ts.Block {
-	return node.hasOwnProperty('statements');
+function hasTypeArguments(node): node is ts.TypeReference {
+	return node.hasOwnProperty('typeArguments');
 }
 
-function getFromImportClause(importClause: ts.ImportClause, name: string) {
-	const {namedBindings} = importClause;
-	let exportName = null;
+function isClassDeclaration(node): node is ts.ClassDeclaration {
+	return node.kind === ts.SyntaxKind.ClassDeclaration;
+}
 
-	if (importClause.name) {
-		exportName = importClause.name.getText() === name ? 'default' : null;
-	} else if ((<ts.NamedImports>namedBindings).elements) {
-
-		(<ts.NamedImports>namedBindings).elements.some(node => {
-			if (node.name.getText() === name) {
-				exportName = node.propertyName ? node.propertyName.getText() : name;
-				return true;
-			}
-		});
-	}
-
-	return exportName;
+function isFunctionLikeDeclaration(node): node is ts.FunctionDeclaration {
+	return (
+		node.kind === ts.SyntaxKind.ArrowFunction ||
+		node.kind === ts.SyntaxKind.FunctionDeclaration
+	);
 }
 
 function isImportDeclaration(node): node is ts.ImportDeclaration {
@@ -55,10 +47,8 @@ function getTypeFromTypeNode(fileName, searchNode: ts.Node): TypeOfNode | null {
 	});
 
 	if (targetNode) {
-		const type = typeChecker.getTypeFromTypeNode(targetNode);
-
 		return {
-			type,
+			type: typeChecker.getTypeAtLocation(targetNode),
 			typeChecker,
 		};
 	}
@@ -91,24 +81,41 @@ function visitNode(node: ts.Node, reflect) {
 		if (reflect.methods.includes(method)) {
 			let list = [];
 
-			if (method === 'getInterfaces') {
+			if (method === 'getInterfaces' && node.typeArguments.length) {
+				// Interfaces
 				const result = getTypeFromTypeNode(reflect.fileName, node.typeArguments[0]);
 
 				if (result) {
 					list = getInterfacesList(result);
 				}
-			} else if (method === 'getComponentInterfaces') {
-				const {type, typeChecker} = getTypeFromTypeNode(reflect.fileName, node.typeArguments[0]);
-				const classLike = type.symbol.valueDeclaration as ts.ClassLikeDeclaration;
+			} else if (method === 'getComponentInterfaces' && node.arguments.length) {
+				// React and like
+				const {type, typeChecker} = getTypeFromTypeNode(reflect.fileName, node.arguments[0]);
 
-				classLike.heritageClauses.forEach(node => {
-					node.types.forEach(type => {
-						type.typeArguments.forEach(arg => {
-							const result = typeChecker.getTypeFromTypeNode(arg);
-							list.push.apply(list, getInterfacesList({type: result, typeChecker}));
+				if (type && type.symbol) {
+					const {valueDeclaration} = type.symbol;
+
+					if (!valueDeclaration) {
+						if (hasTypeArguments(type)) {
+							// const cmp = fnName<X>();
+							list = getInterfacesList({type: type.typeArguments[0], typeChecker});
+						}
+					} else if (isClassDeclaration(valueDeclaration)) {
+						// class Btn extends Base<X>
+						valueDeclaration.heritageClauses.forEach(node => {
+							node.types.forEach(type => {
+								type.typeArguments.forEach(arg => {
+									const result = typeChecker.getTypeFromTypeNode(arg);
+									list.push.apply(list, getInterfacesList({type: result, typeChecker}));
+								});
+							});
 						});
-					});
-				});
+					} else if (isFunctionLikeDeclaration(valueDeclaration) && valueDeclaration.parameters.length) {
+						// const cmp = (props: X) => {};
+						const result = typeChecker.getTypeFromTypeNode(valueDeclaration.parameters[0].type);
+						list = getInterfacesList({type: result, typeChecker})
+					}
+				}
 			}
 
 			return ts.createArrayLiteral(list.map(name => ts.createLiteral(name)));

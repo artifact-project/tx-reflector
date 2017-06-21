@@ -2,6 +2,6 @@ export function getInterfaces<T>(target: T | Function): string[] {
 	return [];
 }
 
-export function getComponentInterfaces<T>(target: Function): string[] {
+export function getComponentInterfaces(target: Function): string[] {
 	return [];
 }

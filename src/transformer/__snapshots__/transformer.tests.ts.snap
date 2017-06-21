@@ -1,10 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getComponentInterfaces XCmp 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XCmp } from './_components';
+const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
+
+exports[`getComponentInterfaces XFnPureCmp 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XFnPureCmp } from './_components';
+const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
+
+exports[`getComponentInterfaces XLikeFnCmp 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XLikeFnCmp } from './_components';
+const interfaces = [\\"IProps\\", \\"IClickable\\"];
+"
+`;
+
+exports[`getComponentInterfaces XPureCmp 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XPureCmp } from './_components';
+const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
+
+exports[`getComponentInterfaces XPureCmpWithSpred 1`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XPureCmpWithSpred } from './_components';
+const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
+
+exports[`getComponentInterfaces XPureCmpWithSpred 2`] = `
+"import { getComponentInterfaces } from '../../reflector/reflector';
+import { XPureCmpWithSpred } from './_components';
+const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
+"
+`;
+
 exports[`getInterfaces 1`] = `
-"import { getInterfaces, getComponentInterfaces } from '../../reflector/reflector';
-import { IProps } from './interfaces';
-import { XClass } from './classes';
-const forInterface = [\\"IProps\\", \\"IClickable\\"];
-const forComponent = [\\"XAttrs\\", \\"IClickable\\"];
+"import { getInterfaces } from '../../reflector/reflector';
+import { IProps } from './_interfaces';
+const interfaces = [\\"IProps\\", \\"IClickable\\"];
 "
 `;
