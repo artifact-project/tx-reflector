@@ -2,6 +2,11 @@ import * as ts from 'typescript';
 
 const R_TS_REFLECTOR = /^(['"])(tx-reflector|\.\.\/\.\.\/reflector\/reflector)\1$/;
 
+interface IReclectTarget {
+	fileName: string;
+	methods: string[];
+}
+
 function hasTypeArguments(node): node is ts.TypeReference {
 	return node.hasOwnProperty('typeArguments');
 }
@@ -70,12 +75,12 @@ function getInterfacesList({type, typeChecker}: TypeOfNode) {
 }
 
 function log(obj) {
-	const copy = Object.assign({}, obj);
+	const copy = {...obj};
 	delete copy.parent;
 	console.log(copy);
 }
 
-function visitNode(node: ts.Node, reflect) {
+function visitNode(node: ts.Node, reflect: IReclectTarget): ts.Node {
 	if (isCallExpression(node)) {
 		const method = node.expression.getText();
 
@@ -83,7 +88,7 @@ function visitNode(node: ts.Node, reflect) {
 			let list = [];
 
 			if (!(node.arguments || node.typeArguments)) {
-				return list;
+				return node;
 			}
 
 			if (method === 'getInterfaces') {
@@ -131,7 +136,7 @@ function visitNode(node: ts.Node, reflect) {
 	return node;
 }
 
-function visitNodeAndChildren(node: ts.Node, context, reflect) {
+function visitNodeAndChildren(node: ts.Node, context, reflect: IReclectTarget) {
 	return ts.visitEachChild(
 		visitNode(node, reflect),
 		(childNode) => visitNodeAndChildren(childNode, context, reflect),
@@ -141,7 +146,7 @@ function visitNodeAndChildren(node: ts.Node, context, reflect) {
 
 function transformer(context) {
 	return function visitor(file: ts.SourceFile) {
-		const reflect = {
+		const reflect: IReclectTarget = {
 			fileName: file.fileName,
 			methods: [],
 		};
