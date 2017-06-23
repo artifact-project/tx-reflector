@@ -46,7 +46,7 @@ const interfaces = getComponentInterfaces(Btn);
 
 
 ### Webpack
-Use [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) or (ts-loader)[https://github.com/TypeStrong/ts-loader/pull/535].
+Use [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) or [ts-loader 2.3+](https://github.com/TypeStrong/ts-loader/).
 
 ```js
 // webpack.config.js
