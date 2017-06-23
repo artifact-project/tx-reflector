@@ -53,6 +53,8 @@ const interfaces = [\\"XAttrs\\", \\"IClickable\\"];
 exports[`getInterfaces 1`] = `
 "import { getInterfaces } from '../../reflector/reflector';
 import { IProps } from './_interfaces';
+const props: IProps = { value: 'foo' };
 const interfaces = [\\"IProps\\", \\"IClickable\\"];
+const interfacesWithT = [\\"IProps\\", \\"IClickable\\"];
 "
 `;

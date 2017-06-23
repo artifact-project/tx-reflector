@@ -1,7 +1,7 @@
-export function getInterfaces<T>(target: T | Function): string[] {
+export function getInterfaces<T>(target: T | Function | object): string[] {
 	return [];
 }
 
-export function getComponentInterfaces(target: Function): string[] {
+export function getComponentInterfaces(target: Function | object): string[] {
 	return [];
 }

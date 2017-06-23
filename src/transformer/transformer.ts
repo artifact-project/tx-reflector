@@ -82,9 +82,14 @@ function visitNode(node: ts.Node, reflect) {
 		if (reflect.methods.includes(method)) {
 			let list = [];
 
-			if (method === 'getInterfaces' && node.typeArguments.length) {
+			if (!(node.arguments || node.typeArguments)) {
+				return list;
+			}
+
+			if (method === 'getInterfaces') {
 				// Interfaces
-				const result = getTypeFromTypeNode(reflect.fileName, node.typeArguments[0]);
+				const target = node.typeArguments ? node.typeArguments[0] : node.arguments[0];
+				const result = getTypeFromTypeNode(reflect.fileName, target);
 
 				if (result) {
 					list = getInterfacesList(result);

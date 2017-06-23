@@ -17,7 +17,8 @@ TypeScript transformer for code generation.
 ```ts
 import {getInterfaces} from 'tx-reflector';
 
-const interfaces: string[] = getInterfaces<IData>(data);
+const data: IData = {value: 'foo'};
+const interfaces: string[] = getInterfaces(data); // OR getInterfaces<IData>(anything);
 
 // After compilation:
 //   var interfaces = ["IData", "IAbstractData"];

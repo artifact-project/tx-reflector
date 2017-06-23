@@ -1,4 +1,6 @@
 import {getInterfaces} from '../../reflector/reflector';
 import {IProps} from './_interfaces';
 
-const interfaces = getInterfaces<IProps>({value: 'foo'});
+const props: IProps = {value: 'foo'}
+const interfaces = getInterfaces(props);
+const interfacesWithT = getInterfaces<IProps>({value: 'bar'});
