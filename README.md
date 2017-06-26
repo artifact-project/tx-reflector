@@ -7,6 +7,7 @@ TypeScript transformer for code generation.
 
 ### API
 
+ - `getInterfaces(target: Function | object): string[]`
  - `getInterfaces<T>(target: T): string[]`
  - `getComponentInterfaces(XClass: Function): string[]`
 
