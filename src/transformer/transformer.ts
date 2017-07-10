@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-const R_TS_REFLECTOR = /^(['"])(tx-reflector|\.\.\/\.\.\/reflector\/reflector)\1$/;
+const R_TS_REFLECTOR = /^(['"]?)(tx-reflector|\.\.\/\.\.\/reflector\/reflector)\1$/;
 
 interface IReclectTarget {
 	fileName: string;
@@ -152,7 +152,7 @@ function transformer(context) {
 		};
 		const hasImport = file.statements.some((node) => {
 			if (isImportDeclaration(node)) {
-				if (R_TS_REFLECTOR.test(node.moduleSpecifier.getText())) {
+				if (R_TS_REFLECTOR.test(node.moduleSpecifier.text)) {
 					const bindings = (node.importClause.namedBindings as ts.NamedImports);
 					reflect.methods = bindings.elements.map(({name}) => name.getText());
 					return true;

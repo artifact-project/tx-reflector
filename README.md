@@ -1,6 +1,7 @@
 TX Reflector
 ------------
-TypeScript transformer for code generation.
+TypeScript transformer for code generation.<br/>
+See also [Interface-based instructions](https://github.com/artifact-project/ibi).
 
  - `npm i --save-dev tx-reflector`
 
