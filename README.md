@@ -3,7 +3,12 @@ TX Reflector
 TypeScript transformer for code generation.<br/>
 See also [Interface-based instructions](https://github.com/artifact-project/ibi).
 
- - `npm i --save-dev tx-reflector`
+
+### Install
+
+```
+npm i --save-dev tx-reflector
+```
 
 
 ### API
@@ -108,9 +113,5 @@ module.exports = {
 ### Development
 
  - `npm i`
- - `npm test`
+ - `npm test`, [code coverage](./coverage/lcov-report/index.html)
 
-
-### Code coverage
-
- - [coverage/lcov-report/index.html](./coverage/lcov-report/index.html)
