@@ -13,10 +13,10 @@
   "repository": "git@github.com:artifact-project/tx-reflector.git",
   "scripts": {
     "test": "jest --coverage",
-    "build": "tsc",
-    "clean": "git clean -f",
-    "prepublish": "npm run build",
-    "postpublish": "npm run clean"
+    "ts-build": "tsc",
+    "ts-clean": "git clean -f",
+    "prepublish": "npm run test && npm run ts-build",
+    "postpublish": "npm run ts-clean"
   },
   "files": [
     "*.js",
