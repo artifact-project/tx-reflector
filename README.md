@@ -23,13 +23,23 @@ npm i --save-dev tx-reflector
 ### Usage
 
 ```ts
-import {getInterfaces} from 'tx-reflector';
+import {getInterfaces, getRawInterfaces, Interface} from 'tx-reflector';
 
 const data: IData = {value: 'foo'};
 const interfaces: string[] = getInterfaces(data); // OR getInterfaces<IData>(anything);
+const rawInterfaces: Interface[] = getRawInterfaces(data);;
 
 // After compilation:
 //   var interfaces = ["IData", "IAbstractData"];
+//   var rawInterfaces = [
+//      {
+//         name: "IData",
+//         entries: [{name: "value", type: "string", optional: false}],
+//      }, {
+//         name: "IAbstractData",
+//         entries: [{name: "source", type: "string", optional: false}],
+//      },
+//   ];
 ```
 
 
