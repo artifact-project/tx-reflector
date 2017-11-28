@@ -58,3 +58,12 @@ const interfaces = [\\"IProps\\", \\"IClickable\\"];
 const interfacesWithT = [\\"IProps\\", \\"IClickable\\"];
 "
 `;
+
+exports[`getRawInterfaces 1`] = `
+"import { getRawInterfaces } from '../../reflector/reflector';
+import { IProps } from './_interfaces';
+const props: IProps = { value: 'foo' };
+const interfaces = [{\\"name\\":\\"IProps\\",\\"entries\\":[{\\"name\\":\\"value\\",\\"type\\":\\"string\\",\\"optional\\":false},{\\"name\\":\\"type\\",\\"type\\":\\"string\\",\\"optional\\":true},{\\"name\\":\\"checked\\",\\"type\\":\\"boolean\\",\\"optional\\":true}]}, {\\"name\\":\\"IClickable\\",\\"entries\\":[{\\"name\\":\\"onClick\\",\\"type\\":\\"void\\",\\"optional\\":true}]}];
+const interfacesWithT = [{\\"name\\":\\"IProps\\",\\"entries\\":[{\\"name\\":\\"value\\",\\"type\\":\\"string\\",\\"optional\\":false},{\\"name\\":\\"type\\",\\"type\\":\\"string\\",\\"optional\\":true},{\\"name\\":\\"checked\\",\\"type\\":\\"boolean\\",\\"optional\\":true}]}, {\\"name\\":\\"IClickable\\",\\"entries\\":[{\\"name\\":\\"onClick\\",\\"type\\":\\"void\\",\\"optional\\":true}]}];
+"
+`;

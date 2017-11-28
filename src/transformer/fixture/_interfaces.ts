@@ -4,4 +4,6 @@ export interface IClickable {
 
 export interface IProps extends IClickable {
 	value: string;
+	type?: string;
+	checked?: boolean;
 }

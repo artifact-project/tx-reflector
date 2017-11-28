@@ -2,7 +2,12 @@ import * as ts from 'typescript';
 
 const R_TS_REFLECTOR = /^(['"]?)(tx-reflector|\.\.\/\.\.\/reflector\/reflector)\1$/;
 
-interface IReclectTarget {
+const KIND_TO_TYPE = Object.keys(ts.SyntaxKind).reduce((types, name) => {
+	types[ts.SyntaxKind[name]] = name.toLowerCase().replace(/(keyword)$/, '');
+	return types;
+}, {});
+
+interface IReflectTarget {
 	fileName: string;
 	methods: string[];
 }
@@ -62,16 +67,41 @@ function getTypeFromTypeNode(fileName, searchNode: ts.Node): TypeOfNode | null {
 	return null;
 }
 
-function getInterfacesList({type, typeChecker}: TypeOfNode) {
-	const list = {};
+function getInterfacesList({type, typeChecker}: TypeOfNode, raw: boolean = false) {
 	const properties = typeChecker.getPropertiesOfType(type);
 
-	properties.forEach((prop) => {
-		const name = (prop as object as {parent: {name: string}}).parent.name;
-		list[name] = true;
-	});
+	if (raw) {
+		const exists = {};
+		const list = [];
 
-	return Object.keys(list);
+		properties.forEach((prop) => {
+			const name = (prop as object as { parent: { name: string } }).parent.name;
+
+			if (!exists.hasOwnProperty(name)) {
+				list.push(exists[name] = {
+					name,
+					entries: [],
+				});
+			}
+
+			exists[name].entries.push({
+				name: prop.name,
+				type: KIND_TO_TYPE[(prop.valueDeclaration as any).type.kind],
+				optional: !!(prop.flags & ts.SymbolFlags.Optional),
+			});
+		});
+
+		return list;
+	} else {
+		const list = {};
+
+		properties.forEach((prop) => {
+			const name = (prop as object as { parent: { name: string } }).parent.name;
+			list[name] = true;
+		});
+
+		return Object.keys(list);
+	}
 }
 
 function log(obj) {
@@ -80,7 +110,7 @@ function log(obj) {
 	console.log(copy);
 }
 
-function visitNode(node: ts.Node, reflect: IReclectTarget): ts.Node {
+function visitNode(node: ts.Node, reflect: IReflectTarget): ts.Node {
 	if (isCallExpression(node)) {
 		const method = node.expression.getText();
 
@@ -91,13 +121,13 @@ function visitNode(node: ts.Node, reflect: IReclectTarget): ts.Node {
 				return node;
 			}
 
-			if (method === 'getInterfaces') {
+			if (method === 'getInterfaces' || method === 'getRawInterfaces') {
 				// Interfaces
 				const target = node.typeArguments ? node.typeArguments[0] : node.arguments[0];
 				const result = getTypeFromTypeNode(reflect.fileName, target);
 
 				if (result) {
-					list = getInterfacesList(result);
+					list = getInterfacesList(result, method === 'getRawInterfaces');
 				}
 			} else if (method === 'getComponentInterfaces' && node.arguments.length) {
 				// React and like
@@ -124,19 +154,25 @@ function visitNode(node: ts.Node, reflect: IReclectTarget): ts.Node {
 					} else if (isFunctionLikeDeclaration(valueDeclaration) && valueDeclaration.parameters.length) {
 						// const cmp = (props: X) => {};
 						const result = typeChecker.getTypeFromTypeNode(valueDeclaration.parameters[0].type);
-						list = getInterfacesList({type: result, typeChecker})
+						list = getInterfacesList({type: result, typeChecker});
 					}
 				}
 			}
 
-			return ts.createArrayLiteral(list.map(name => ts.createLiteral(name)));
+			return ts.createArrayLiteral(list.map(name => {
+				if (typeof name === 'string') {
+					return ts.createLiteral(name)
+				} else {
+					return ts.createIdentifier(JSON.stringify(name));
+				}
+			}));
 		}
 	}
 
 	return node;
 }
 
-function visitNodeAndChildren(node: ts.Node, context, reflect: IReclectTarget) {
+function visitNodeAndChildren(node: ts.Node, context, reflect: IReflectTarget) {
 	return ts.visitEachChild(
 		visitNode(node, reflect),
 		(childNode) => visitNodeAndChildren(childNode, context, reflect),
@@ -146,7 +182,7 @@ function visitNodeAndChildren(node: ts.Node, context, reflect: IReclectTarget) {
 
 function transformer(context) {
 	return function visitor(file: ts.SourceFile) {
-		const reflect: IReclectTarget = {
+		const reflect: IReflectTarget = {
 			fileName: file.fileName,
 			methods: [],
 		};

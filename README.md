@@ -15,6 +15,7 @@ npm i --save-dev tx-reflector
 
  - `getInterfaces(target: Function | object): string[]`
  - `getInterfaces<T>(target: T): string[]`
+ - `getRawInterfaces<T>(target: T): Interface[]`
  - `getComponentInterfaces(XClass: Function): string[]`
 
 

@@ -24,6 +24,10 @@ it('getInterfaces', () => {
 	expect(transform(`getInterfaces`)).toMatchSnapshot();
 });
 
+it('getRawInterfaces', () => {
+	expect(transform(`getRawInterfaces`)).toMatchSnapshot();
+});
+
 describe('getComponentInterfaces', () => {
 	it('XCmp', () => {
 		expect(transform(`getComponentInterfaces.XCmp`)).toMatchSnapshot();
